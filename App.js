@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Alert,ImageBackground } from 'react-native';
+import { View, Text, Button, StyleSheet, Alert,ImageBackground,Switch,Image } from 'react-native';
 import { Card } from 'react-native-paper'; // Import Card from react-native-paper
+import { createStaticNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
 
 const App = () => {
   const [clickCount, setClickCount] = useState(0);
   const [fact, setFact] = useState('');
+  // switch stuff
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   // Function to handle button click
   const handleClick = () => {
     setClickCount(clickCount + 1);
     fetchRandomFact();
   };
+  const Spacer = ({ height, width }) => <View style={{ height, width }} />;
 
   // Fetch random fact from an API
   const fetchRandomFact = async () => {
@@ -27,20 +32,23 @@ const App = () => {
   };
 
   return (
-
-
+    
     <View style={styles.container}>
    <View style={styles.background} /> 
    
-   <ImageBackground
+
+   {/* <ImageBackground
         source={{ uri: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDEwfHxzb2Z0JTIwZ3JhZGllbnR8ZW58MHx8fHwxNjY5NzY4Nzgy&ixlib=rb-1.2.1&q=80&w=1080' }} // Replace with your image URL or require('./path/to/image.jpg')
         style={styles.backgroundImage}
       >
         <View style={styles.overlay} />
 
-      </ImageBackground>
+      </ImageBackground> */}
       
       {/* <Background/> */}
+
+      {/* CARD */}
+      
       <Card style={styles.card}>
         <Card.Content>
         <Text style={styles.text} >Button Clicked: {clickCount} times</Text>
@@ -52,6 +60,15 @@ const App = () => {
       )}
         </Card.Content>
       </Card>
+      <Spacer height={30} />
+
+      <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
 
     </View>
   );
@@ -68,6 +85,8 @@ card: {
   width: 300, // Set a width for your card
   elevation: 5, // Adds shadow effect
   borderRadius: 19, // Rounded corners
+  backgroundColor: 'rgba(112, 218, 244, 0.8)'
+  
 },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -102,3 +121,4 @@ card: {
 });
 
 export default App;
+
